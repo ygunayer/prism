@@ -14,8 +14,11 @@ The project uses [node-config](https://github.com/lorenwest/node-config), and ex
 | Config Path | Environment Variable | Description |
 |-------------|----------------------|-------------|
 | `rabbitmq.url` | `RABBITMQ_URL` | The RabbitMQ URL (default: `amqp://localhost:5672`) |
+| `gcloud.keyFilename` | `GCLOUD_KEY_FILENAME` | Path to the key file (default: `~/prism-bigquery.json`) |
+| `gcloud.projectId` | `GCLOUD_PROJCT_ID` | The ID of the project that contains the BigQuery dataset *(optional, defaults to the project ID found in the key file)* |
+| `gcloud.datasetName` | `GCLOUD_DATASET_NAME` | Name of the dataset to use (no default) |
 
-To override a config parameter, simply pass the corresponding environment variable with the value of your choice.
+To override a config parameter, simply pass the corresponding environment variable with the value of your choice, or create a file at `config/local.json` that contains the desired overrides (keep in mind that this file is not checked out to SCM).
 
 ## Running
 - Data generation script

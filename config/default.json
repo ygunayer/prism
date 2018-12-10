@@ -1,5 +1,10 @@
 {
     "rabbitmq": {
         "url": "amqp://localhost:5672"
+    },
+    "gcloud": {
+        "keyFilename": "~/prism-bigquery.json",
+        "projectId": null,
+        "datasetName": null
     }
 }

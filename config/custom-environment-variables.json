@@ -1,5 +1,10 @@
 {
     "rabbitmq": {
         "url": "RABBITMQ_URL"
+    },
+    "gcloud": {
+        "keyFilename": "GCLOUD_KEY_FILENAME",
+        "projectId": "GCLOUD_PROJECT_ID",
+        "datasetName": "GCLOUD_DATASET_NAME"
     }
 }
