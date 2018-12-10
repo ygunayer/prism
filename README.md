@@ -8,6 +8,11 @@ When an individual event is being processed, it's broken down into separate cont
 
 > Included in the repo is a script that generates a given number (default: `100k`) of events and publishes them into a queue named `events-raw` on RabbitMQ.
 
+## Prerequisites
+- Node.js
+- A service account on Google Cloud that has at least the following roles: `BigQuery Admin`
+    - Refer to [Google's own documentation](https://cloud.google.com/docs/authentication/getting-started) on how to setup a service account. Once your account is created, simply download the key as a JSON file and place it somewhere of your choice (refer to [Configuration](#configuration) for configuring its path)
+
 ## Configuration
 The project uses [node-config](https://github.com/lorenwest/node-config), and exposes the following parameters:
 
