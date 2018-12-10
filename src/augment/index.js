@@ -34,7 +34,13 @@ async function augment(event) {
         return {...next, [context.name]: {self, sub}};
     }, Promise.resolve({}));
 
-    const contextNames = contexts.map(ctx => ctx.name);
+    const contextNames = contexts
+        .reduce((acc, ctx) => acc
+            .concat(ctx.name)
+            .concat(
+                (ctx.sub || []).map(name => `${ctx.name}_${name}`)
+            )
+        , []);
 
     return {
         contexts: contextNames,

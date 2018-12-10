@@ -8,12 +8,13 @@ const SCHEMA = Joi.object().keys({
 async function augment(event) {
     await SCHEMA.validate(event, {allowUnknown: true});
 
-    const {timestamp, action} = event;
+    const {timestamp, action, context} = event;
 
     return {
         self: {
             timestamp,
-            action
+            action,
+            context
         }
     };
 }

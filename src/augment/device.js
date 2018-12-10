@@ -10,7 +10,7 @@ async function augment(event) {
     const {deviceId} = event;
 
     return {
-        root: {
+        self: {
             deviceId,
             shopId: deviceId * 33,
             accountId: deviceId * 121
