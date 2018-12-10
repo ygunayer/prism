@@ -54,16 +54,16 @@ Raw event, generated randomly:
 {
     "context": "device, content, plugin(playlist)",
     "action": "item_completed",
-    "timestamp": "Mon Dec 10 2018 17:16:33 GMT+0300 (+03)",
+    "timestamp": "Mon Dec 10 2018 17:34:21 GMT+0300 (+03)",
     "pluginName": "playlist",
     "pluginVersion": "1.3.0",
     "playerId": "foobarasdfadfa",
-    "deviceId": 6473,
-    "mediaId": 101,
-    "contentVersionId": 61,
+    "deviceId": 2089,
+    "mediaId": 248,
+    "contentVersionId": 24,
     "location": {
-        "lat": 18.653597,
-        "lon": 15.374164
+        "lat": 44.90136660572093,
+        "lon": 30.231056478948723
     }
 }
 ```
@@ -80,26 +80,34 @@ Same event, augmented augmented:
         "plugin_playlist"
     ],
     "event": {
-        "timestamp": "Mon Dec 10 2018 17:16:33 GMT+0300 (+03)",
+        "timestamp": "Mon Dec 10 2018 17:34:21 GMT+0300 (+03)",
         "action": "item_completed",
         "context": "device, content, plugin(playlist)"
     },
     "device": {
-        "deviceId": 6473,
-        "shopId": 213609,
-        "accountId": 783233
+        "deviceId": 2089,
+        "shopId": 68937,
+        "accountId": 252769,
+        "location": {
+            "lat": 44.90136660572093,
+            "lon": 30.231056478948723
+        },
+        "shopLocation": {
+            "lat": 37.22325714782646,
+            "lon": 34.73211970213062
+        }
     },
     "content": {
-        "contentVersionId": 61,
-        "contentId": 915,
-        "isPristine": true
+        "contentVersionId": 24,
+        "contentId": 360,
+        "isPristine": false
     },
     "plugin": {
         "pluginName": "playlist",
         "pluginVersion": "1.3.0"
     },
     "plugin_playlist": {
-        "mediaId": 101,
+        "mediaId": 248,
         "playerId": "foobarasdfadfa"
     }
 }

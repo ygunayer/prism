@@ -1,26 +1,34 @@
 const {EventEmitter} = require('events');
 
-function number({min = 0, max = 1}) {
-    return parseInt(min + (max - min) * Math.random());
+function integer({min = 0, max = 1} = {}) {
+    return parseInt(float({min, max}));
+}
+
+function float({min = 0, max = 1} = {}) {
+    return min + (max - min) * Math.random();
 }
 
 const initialTime = Date.now();
+
+function coordinates({minLat = 36, maxLat = 45, minLon = 26, maxLon = 36} = {}) {
+    return {
+        lat: float({min: minLat, max: maxLat}),
+        lon: float({min: minLon, max: maxLon})
+    };
+}
 
 function event({from = initialTime - 86400, to = initialTime} = {}) {
     return {
         context: 'device, content, plugin(playlist)',
         action: 'item_completed',
-        timestamp: new Date(number({min: from, max: to})).toString(),
+        timestamp: new Date(integer({min: from, max: to})).toString(),
         pluginName: 'playlist',
         pluginVersion: '1.3.0',
         playerId: 'foobarasdfadfa',
-        deviceId: number({min: 1000, max: 10000}),
-        mediaId: number({min: 100, max: 1000}),
-        contentVersionId: number({min: 10, max: 100}),
-        location: {
-            lat: number({min: 36000000, max: 4500000})/1000000,
-            lon: number({min: 26000000, max: 3600000})/1000000,
-        }
+        deviceId: integer({min: 1000, max: 10000}),
+        mediaId: integer({min: 100, max: 1000}),
+        contentVersionId: integer({min: 10, max: 100}),
+        location: coordinates()
     };
 }
 
@@ -39,5 +47,7 @@ function eventsBulk(size) {
 module.exports = {
     event,
     eventsBulk,
-    number
+    integer,
+    float,
+    coordinates
 };
