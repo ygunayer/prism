@@ -6,7 +6,7 @@ Events are read from RabbitMQ, processed, put back into RabbitMQ on a separate q
 
 When an individual event is being processed, it's broken down into separate contexts. Each context represents a single business domain (e.g. an entity or domain object), and may contain a single-level hierarchy (called sub-contexts). The data for an individual context (including sub-contexts) is extracted by a specific asynchronous process (called `augment`s), and are put to separate tables on BigQuery.
 
-> Included in the repo is a script that generates a given number (default: `100k`) of events and publishes them into a queue named `events-raw` on RabbitMQ.
+> *Note:* Included in the repo is a script that generates a given number (default: `100k`) of events and publishes them into a queue named `events-raw` on RabbitMQ.
 
 ## Prerequisites
 - Node.js
@@ -46,6 +46,66 @@ $ node index.js
 # Run the pipeline on amqp://192.168.1.113:5672
 $ RABBITMQ_URL=amqp://192.168.1.113:5672 node index.js
 ```
+
+## Examples
+Raw event, generated randomly:
+
+```json
+{
+    "context": "device, content, plugin(playlist)",
+    "action": "item_completed",
+    "timestamp": "Mon Dec 10 2018 17:16:33 GMT+0300 (+03)",
+    "pluginName": "playlist",
+    "pluginVersion": "1.3.0",
+    "playerId": "foobarasdfadfa",
+    "deviceId": 6473,
+    "mediaId": 101,
+    "contentVersionId": 61,
+    "location": {
+        "lat": 18.653597,
+        "lon": 15.374164
+    }
+}
+```
+
+Same event, augmented augmented:
+
+```json
+{
+    "contexts": [
+        "event",
+        "device",
+        "content",
+        "plugin",
+        "plugin_playlist"
+    ],
+    "event": {
+        "timestamp": "Mon Dec 10 2018 17:16:33 GMT+0300 (+03)",
+        "action": "item_completed",
+        "context": "device, content, plugin(playlist)"
+    },
+    "device": {
+        "deviceId": 6473,
+        "shopId": 213609,
+        "accountId": 783233
+    },
+    "content": {
+        "contentVersionId": 61,
+        "contentId": 915,
+        "isPristine": true
+    },
+    "plugin": {
+        "pluginName": "playlist",
+        "pluginVersion": "1.3.0"
+    },
+    "plugin_playlist": {
+        "mediaId": 101,
+        "playerId": "foobarasdfadfa"
+    }
+}
+```
+
+> *Hint:* Run `node scripts/demo.js` to generate your own random event.
 
 ## License
 MIT
