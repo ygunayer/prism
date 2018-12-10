@@ -1,0 +1,25 @@
+{
+  "name": "prism",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node ./node_modules/mocha/bin/mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "0.5.3",
+    "chai": "4.2.0",
+    "config": "3.0.0",
+    "debug": "4.1.0",
+    "jackrabbit": "4.4.0",
+    "joi": "14.3.0",
+    "mocha": "5.2.0",
+    "module-alias": "2.1.0"
+  },
+  "_moduleAliases": {
+    "@prism": "src/"
+  }
+}
