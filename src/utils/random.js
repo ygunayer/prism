@@ -1,4 +1,5 @@
 const {EventEmitter} = require('events');
+const uuid = require('uuid/v4');
 
 function integer({min = 0, max = 1} = {}) {
     return parseInt(float({min, max}));
@@ -19,9 +20,10 @@ function coordinates({minLat = 36, maxLat = 45, minLon = 26, maxLon = 36} = {}) 
 
 function event({from = initialTime - 86400, to = initialTime} = {}) {
     return {
+        id: uuid(),
         context: 'device, content, plugin(playlist)',
         action: 'item_completed',
-        timestamp: new Date(integer({min: from, max: to})).toString(),
+        timestamp: +(new Date(integer({min: from, max: to}))),
         pluginName: 'playlist',
         pluginVersion: '1.3.0',
         playerId: 'foobarasdfadfa',

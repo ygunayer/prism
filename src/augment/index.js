@@ -30,22 +30,11 @@ async function augment(event) {
     const augs = await contexts.reduce(async (acc, context) => {
         const next = await acc;
         const augment = require(`./${context.name}`);
-        const {self, sub = null} = await augment(event, context);
+        const {self, sub = null} = await augment(event, {contexts, context});
         return {...next, [context.name]: {self, sub}};
     }, Promise.resolve({}));
 
-    const contextNames = contexts
-        .reduce((acc, ctx) => acc
-            .concat(ctx.name)
-            .concat(
-                (ctx.sub || []).map(name => `${ctx.name}_${name}`)
-            )
-        , []);
-
-    return {
-        contexts: contextNames,
-        ...flattenAugs(augs)
-    };
+    return flattenAugs(augs);
 }
 
 module.exports = augment;

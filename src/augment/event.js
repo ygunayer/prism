@@ -1,20 +1,31 @@
 const Joi = require('joi');
+const moment = require('moment');
 
 const SCHEMA = Joi.object().keys({
+    id: Joi.string().uuid().required(),
     timestamp: Joi.date().required(),
     action: Joi.string().required()
 });
 
-async function augment(event) {
+async function augment(event, {contexts}) {
     await SCHEMA.validate(event, {allowUnknown: true});
 
-    const {timestamp, action, context} = event;
+    const {id, timestamp, action} = event;
+
+    const contextNames = contexts
+        .reduce((acc, ctx) => acc
+            .concat(ctx.name)
+            .concat(
+                (ctx.sub || []).map(name => `${ctx.name}_${name}`)
+            )
+        , []);
 
     return {
         self: {
-            timestamp,
+            id,
+            timestamp: moment(timestamp).format(),
             action,
-            context
+            contexts: contextNames
         }
     };
 }

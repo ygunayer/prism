@@ -89,6 +89,7 @@ class RabbitMQ {
                     await handler(data, msg);
                     ch.ack(msg);
                 } catch(e) {
+                    console.error('Error in consumer', e);
                     ch.nack(msg);
                 }
             } catch (e) {

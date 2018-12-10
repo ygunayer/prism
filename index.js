@@ -4,6 +4,7 @@ const config = require('config');
 const augment = require('@prism/augment');
 const RabbitMQ = require('@prism/lib/rabbitmq');
 const bigquery = require('@prism/lib/bigquery');
+const utils = require('@prism/utils');
 
 const rabbit = new RabbitMQ(config.get('rabbitmq.url'));
 
@@ -17,15 +18,30 @@ rabbit.forward('events-raw', 'events-processed', augment)
         e.on('error', err => console.error(err));
     });
 
-rabbit.consume('events-processed', event => {
-    const insertions = Object.keys(event)
+rabbit.consume('events-processed', async data => {
+    const insertions = Object.keys(data)
         .filter(name => name != 'contexts')
         .map(name => ({
-            field: name,
-            table: name == 'event' ? 'event_data' : `${name}_event_data`
-        }));
-    
-    console.log(insertions);
-    throw new Error('ASDKAKDA');
+            table: name == 'event' ? 'events' : `${name}_event_data`,
+            row: utils.db.fixFieldNames(data[name])
+        }))
+        .map(async ({table, row}) => 
+            bigquery
+                .table(table)
+                .insert(row)
+                .catch(err => {
+                    const errData = {
+                        message: 'An error has occurred while inserting event',
+                        table,
+                        errors: err.errors,
+                        raw: err
+                    };
+                    console.error(`BigQuery insertion error`, JSON.stringify(err, null, 4))
+                    throw new Error(errData);
+                })
+        );
+
+    return Promise.all(insertions)
+        .then(_ => console.info('Row inserted'));
 })
     .then(() => console.log('Now waiting for procesesed events'));

@@ -8,7 +8,7 @@ const SCHEMA = Joi.object().keys(
     ITEM_KEYS.reduce((acc, key) => {
         acc[key] = Joi.string();
         return acc;
-    }, {})
+    }, {id: Joi.string().uuid().required()})
 );
 
 async function augment(event) {
@@ -23,7 +23,10 @@ async function augment(event) {
     }, {});
 
     return {
-        self: data
+        self: {
+            eventId: event.id,
+            ...data
+        }
     };
 }
 

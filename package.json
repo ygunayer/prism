@@ -17,7 +17,10 @@
     "debug": "4.1.0",
     "joi": "14.3.0",
     "mocha": "5.2.0",
-    "module-alias": "2.1.0"
+    "module-alias": "2.1.0",
+    "moment": "2.22.2",
+    "to-snake-case": "1.0.0",
+    "uuid": "3.3.2"
   },
   "_moduleAliases": {
     "@prism": "src/"
